@@ -99,7 +99,7 @@ $ kcm remove example1
 
 Note: This does not impact the actual configuration file at all, just whether or not kcm knows about it.
 
-### Configuration
+## Configuration
 
 All of the information used by kcm is stored in a JSON file in `~/.kcm/config.json`.
 
