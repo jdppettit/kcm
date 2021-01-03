@@ -1,5 +1,5 @@
-defmodule KubernetesConfigManager.Configuration do
-  alias KubernetesConfigManager.Format
+defmodule KubectlConfigManager.Configuration do
+  alias KubectlConfigManager.Format
 
   @config_directory Application.get_env(:kcm, :config_directory, "#{Path.expand("~/.kcm")}")
   @config_path "#{@config_directory}/config.json"

@@ -1,7 +1,7 @@
-defmodule KubernetesConfigManager do
+defmodule KubectlConfigManager do
   use ExCLI.DSL, escript: true
 
-  alias KubernetesConfigManager.{Configuration, Format}
+  alias KubectlConfigManager.{Configuration, Format}
 
   name("kcm")
   description("Simply manage all your kubectl config files")

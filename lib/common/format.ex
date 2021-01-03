@@ -1,5 +1,5 @@
-defmodule KubernetesConfigManager.Format do
-  alias KubernetesConfigManager.Configuration
+defmodule KubectlConfigManager.Format do
+  alias KubectlConfigManager.Configuration
 
   def format_list(list) do
     list
