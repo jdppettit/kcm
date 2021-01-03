@@ -20,7 +20,6 @@ defmodule KubernetesConfigManager do
 
     run _context do
       Configuration.print_active()
-      IO.puts("OK")
     end
   end
 
@@ -34,7 +33,6 @@ defmodule KubernetesConfigManager do
       name = context[:name]
       path = context[:path]
       :ok = Configuration.add_config(name, path)
-      IO.puts("OK")
     end
   end
 
@@ -46,7 +44,6 @@ defmodule KubernetesConfigManager do
     run context do
       name = context[:name]
       :ok = Configuration.remove_config(name)
-      IO.puts("OK")
     end
   end
 
@@ -60,8 +57,6 @@ defmodule KubernetesConfigManager do
 
       :ok = Configuration.clean_existing_config()
       :ok = Configuration.make_config_active(name)
-
-      IO.puts("OK")
     end
   end
 end
