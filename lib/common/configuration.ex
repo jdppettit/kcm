@@ -19,9 +19,10 @@ defmodule KubernetesConfigManager.Configuration do
         File.touch(@config_path)
         File.write(@config_path, @default_config)
         :ok
-      _ -> 
+
+      _ ->
         :ok
-    end 
+    end
   end
 
   def create_config_directory! do
@@ -30,7 +31,7 @@ defmodule KubernetesConfigManager.Configuration do
 
   def read_configuration do
     {:ok, json} = File.read(@config_path)
-    json |> Jason.decode!
+    json |> Jason.decode!()
   end
 
   def ready? do
@@ -39,23 +40,30 @@ defmodule KubernetesConfigManager.Configuration do
     else
       create_config_file_if_needed()
     end
+
     :ok
   end
 
   def add_config(name, path) do
     existing = read_configuration()
-    updated = Map.put(existing, "configs", 
-      [ %{name: name, path: path, active: false} | existing["configs"] ]
-    )
+
+    updated =
+      Map.put(existing, "configs", [
+        %{name: name, path: path, active: false} | existing["configs"]
+      ])
+
     write_config(updated)
   end
 
   def remove_config(name) do
     existing = read_configuration()
-    updated_configs = existing["configs"]
-    |> Enum.filter((fn c ->
-      c["name"] != name
-    end))
+
+    updated_configs =
+      existing["configs"]
+      |> Enum.filter(fn c ->
+        c["name"] != name
+      end)
+
     updated = Map.put(existing, "configs", updated_configs)
     write_config(updated)
   end
@@ -67,7 +75,7 @@ defmodule KubernetesConfigManager.Configuration do
   end
 
   def prepare do
-    :ok = ready?() 
+    :ok = ready?()
     read_configuration
   end
 
@@ -75,9 +83,10 @@ defmodule KubernetesConfigManager.Configuration do
     case File.read_link(Path.expand("~/.kube/config")) do
       {:ok, _target} ->
         true
+
       {:error, _failure} ->
         false
-    end 
+    end
   end
 
   def get_active() do
@@ -106,37 +115,38 @@ defmodule KubernetesConfigManager.Configuration do
     else
       if File.exists?(Path.expand("~/.kube/config")) do
         File.rename(
-          Path.expand("~/.kube/config"), 
+          Path.expand("~/.kube/config"),
           Path.expand("~/.kube/config.kcm_backup")
         )
       end
     end
+
     :ok
   end
 
   def get_config_entry_by_path(configs, path_to_find) do
     configs["configs"]
-    |> Enum.map(fn c -> 
+    |> Enum.map(fn c ->
       if c["path"] == path_to_find do
         c
       else
         nil
       end
     end)
-    |> Enum.filter(&!is_nil(&1))
+    |> Enum.filter(&(!is_nil(&1)))
     |> (fn config -> Enum.at(config, 0) end).()
   end
 
   def get_config_entry_by_name(configs, name_to_find) do
     configs["configs"]
-    |> Enum.map(fn c -> 
+    |> Enum.map(fn c ->
       if c["name"] == name_to_find do
         c
       else
         nil
       end
     end)
-    |> Enum.filter(&!is_nil(&1))
+    |> Enum.filter(&(!is_nil(&1)))
     |> (fn config -> Enum.at(config, 0) end).()
   end
 

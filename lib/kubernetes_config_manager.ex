@@ -3,20 +3,20 @@ defmodule KubernetesConfigManager do
 
   alias KubernetesConfigManager.{Configuration, Format}
 
-  name "kcm"
-  description "Simply manage all your kubectl config files"
+  name("kcm")
+  description("Simply manage all your kubectl config files")
 
   command :list do
-    description "View list of available configurations"
+    description("View list of available configurations")
 
     run _context do
-      config = Configuration.prepare
+      config = Configuration.prepare()
       Format.config_list(config["configs"])
     end
   end
 
   command :status do
-    description "Get current kcm status"
+    description("Get current kcm status")
 
     run _context do
       Configuration.print_active()
@@ -25,10 +25,10 @@ defmodule KubernetesConfigManager do
   end
 
   command :create do
-    description "Add new configuration"
+    description("Add new configuration")
 
-    argument :name
-    argument :path
+    argument(:name)
+    argument(:path)
 
     run context do
       name = context[:name]
@@ -39,9 +39,9 @@ defmodule KubernetesConfigManager do
   end
 
   command :remove do
-    description "Remove a configuration"
+    description("Remove a configuration")
 
-    argument :name
+    argument(:name)
 
     run context do
       name = context[:name]
@@ -51,14 +51,14 @@ defmodule KubernetesConfigManager do
   end
 
   command :activate do
-    description "Activate a kubectl configuration"
+    description("Activate a kubectl configuration")
 
-    argument :name
+    argument(:name)
 
     run context do
       name = context[:name]
 
-      :ok = Configuration.clean_existing_config
+      :ok = Configuration.clean_existing_config()
       :ok = Configuration.make_config_active(name)
 
       IO.puts("OK")
