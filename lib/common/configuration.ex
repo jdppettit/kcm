@@ -138,16 +138,13 @@ defmodule KubectlConfigManager.Configuration do
   end
 
   def get_config_entry_by_name(configs, name_to_find) do
-    configs["configs"]
-    |> Enum.map(fn c ->
-      if c["name"] == name_to_find do
+    Enum.reduce(configs["configs"], nil, fn c, acc ->
+      if c["path"] == path_to_find do
         c
       else
-        nil
+        acc
       end
     end)
-    |> Enum.filter(&(!is_nil(&1)))
-    |> (fn config -> Enum.at(config, 0) end).()
   end
 
   def make_config_active(name) do
