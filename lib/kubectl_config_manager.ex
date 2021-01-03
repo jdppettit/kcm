@@ -19,6 +19,7 @@ defmodule KubectlConfigManager do
     description("Get current kcm status")
 
     run _context do
+      :ok = Configuration.ready?
       Configuration.print_active()
     end
   end
@@ -30,6 +31,8 @@ defmodule KubectlConfigManager do
     argument(:path)
 
     run context do
+      :ok = Configuration.ready?
+
       name = context[:name]
       path = context[:path]
       :ok = Configuration.add_config(name, path)
@@ -42,6 +45,8 @@ defmodule KubectlConfigManager do
     argument(:name)
 
     run context do
+      :ok = Configuration.ready?
+
       name = context[:name]
       :ok = Configuration.remove_config(name)
     end
@@ -53,6 +58,8 @@ defmodule KubectlConfigManager do
     argument(:name)
 
     run context do
+      :ok = Configuration.ready?
+
       name = context[:name]
 
       :ok = Configuration.clean_existing_config()
